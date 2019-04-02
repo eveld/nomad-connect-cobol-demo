@@ -14,7 +14,7 @@ import (
 
 // Payload holds the deposit or withdraw details.
 type Payload struct {
-	Amount string `json:"amount"`
+	Amount int `json:"amount"`
 }
 
 // Balance holds the balance of a certain account.
@@ -60,9 +60,10 @@ func DepositHandler(w http.ResponseWriter, r *http.Request) {
 
 	var payload Payload
 	json.NewDecoder(r.Body).Decode(&payload)
+	amount := fmt.Sprintf("%d", payload.Amount)
 
-	log.Printf("INFO: depositing %s to account %s", payload.Amount, account)
-	balance, err := callBankingApp(account, "deposit", payload.Amount)
+	log.Printf("INFO: depositing %s to account %s", amount, account)
+	balance, err := callBankingApp(account, "deposit", amount)
 	if err != nil {
 		log.Printf("ERROR: %s", err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
@@ -83,10 +84,11 @@ func WithdrawHandler(w http.ResponseWriter, r *http.Request) {
 
 	var payload Payload
 	json.NewDecoder(r.Body).Decode(&payload)
+	amount := fmt.Sprintf("%d", payload.Amount)
 
-	log.Printf("INFO: withdrawing %s from account %s", payload.Amount, account)
+	log.Printf("INFO: withdrawing %s from account %s", amount, account)
 
-	balance, err := callBankingApp(account, "withdraw", payload.Amount)
+	balance, err := callBankingApp(account, "withdraw", amount)
 	if err != nil {
 		log.Printf("ERROR: %s", err.Error())
 		w.WriteHeader(http.StatusInternalServerError)

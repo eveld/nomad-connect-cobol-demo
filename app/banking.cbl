@@ -20,7 +20,7 @@ DATA DIVISION.
        01 NEW-BALANCE PIC S9(9).
        01 MUTATION PIC X(8).
        01 AMOUNT PIC 9(9).
-       01 DISPLAY-BALANCE PIC z,zzz,zzz,zz9.99.
+       01 DISPLAY-BALANCE PIC zzzzzzzzz9.99.
 PROCEDURE DIVISION.
     *> Read current balance from file.
     ACCEPT ACCOUNT FROM ARGUMENT-VALUE.
