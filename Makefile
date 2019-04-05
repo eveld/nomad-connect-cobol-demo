@@ -6,26 +6,33 @@ VERSION=$(shell git rev-list --count HEAD)-$(shell git rev-parse --short=7 HEAD)
 version:
 	echo $(VERSION)
 
-.PHONY: app wrapper
+.PHONY: app wrapper rating
 
-all: app wrapper docker
+app: banking wrapper rating
 
-app: app/banking.cbl
-	cobc -free -x app/banking.cbl -o dist/banking
+banking: banking/banking.cbl
+	cobc -free -x banking/banking.cbl -o dist/banking
+	pushd dist && \
+	chmod +x banking && \
+	zip banking.zip banking && \
+	rm banking && \
+	popd
 
 wrapper:
 	pushd wrapper && \
 	go build -o ../dist/wrapper && \
 	popd
 
-docker:
-	docker build -t eveld/cobol:$(VERSION) .
+rating:
+	pushd rating && \
+	go build -o ../dist/rating && \
+	popd
 
-push:
-	docker push eveld/cobol:$(VERSION)
+deploy:
+	nomad run nomad/job.hcl
 
-run:
+nginx:
 	docker run \
-		-ti \
-		-p8080:8080 \
-		eveld/cobol:$(VERSION)
+		-p 8888:80 \
+		-v $(PWD)/dist:/usr/share/nginx/html/files \
+		nginx

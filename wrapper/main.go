@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"os/exec"
 	"strings"
 
@@ -24,13 +25,22 @@ type Balance struct {
 }
 
 func main() {
+	address := os.Args[1]
+
 	r := mux.NewRouter()
 	r.HandleFunc("/accounts/{account}/deposit", DepositHandler).Methods("POST")
 	r.HandleFunc("/accounts/{account}/withdraw", WithdrawHandler).Methods("POST")
 	r.HandleFunc("/accounts/{account}", BalanceHandler).Methods("GET")
+	r.HandleFunc("/healthz", HealthHandler).Methods("GET")
 
 	log.Println("Starting server...")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Fatal(http.ListenAndServe(address, r))
+}
+
+// HealthHandler responds to health checks.
+func HealthHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode("ok")
 }
 
 // BalanceHandler abuses deposit of 0 to retrieve the current balance of an account.
