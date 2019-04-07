@@ -6,9 +6,9 @@ VERSION=$(shell git rev-list --count HEAD)-$(shell git rev-parse --short=7 HEAD)
 version:
 	echo $(VERSION)
 
-.PHONY: app wrapper rating
+.PHONY: app banking wrapper rating frontend nginx consul nomad
 
-app: banking wrapper rating
+build: banking wrapper rating frontend
 
 banking: banking/banking.cbl
 	cobc -free -x banking/banking.cbl -o dist/banking
@@ -28,6 +28,9 @@ rating:
 	go build -o ../dist/rating && \
 	popd
 
+frontend:
+	echo "nothing yet"
+
 deploy:
 	nomad run nomad/job.hcl
 
@@ -36,3 +39,9 @@ nginx:
 		-p 8888:80 \
 		-v $(PWD)/dist:/usr/share/nginx/html/files \
 		nginx
+
+consul:
+	consul agent -dev -grpc-port=8502
+
+nomad:
+	sudo nomad agent -dev -data-dir=$(HOME)/nomad
