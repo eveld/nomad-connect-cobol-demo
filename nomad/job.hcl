@@ -17,7 +17,7 @@ job "banking" {
       driver = "exec"
 
       artifact {
-        source = "http://localhost:8888/files/wrapper"
+        source = "http://localhost:8888/files/wrapper.zip"
       }
 
       artifact {
@@ -67,7 +67,7 @@ job "banking" {
       }
 
       artifact {
-        source = "http://localhost:8888/files/envoy.tar.gz"
+        source = "http://localhost:8888/files/envoy.zip"
       }
 
       env {
@@ -157,7 +157,7 @@ job "banking" {
       driver = "exec"
 
       artifact {
-        source = "http://localhost:8888/files/rating"
+        source = "http://localhost:8888/files/rating.zip"
       }
 
       config {
@@ -199,7 +199,7 @@ job "banking" {
       }
 
       artifact {
-        source = "http://localhost:8888/files/envoy.tar.gz"
+        source = "http://localhost:8888/files/envoy.zip"
       }
 
       env {
@@ -359,7 +359,7 @@ job "banking" {
       }
 
       artifact {
-        source = "http://localhost:8888/files/envoy.tar.gz"
+        source = "http://localhost:8888/files/envoy.zip"
       }
 
       env {

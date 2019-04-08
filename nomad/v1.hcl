@@ -17,7 +17,7 @@ job "banking" {
       driver = "exec"
 
       artifact {
-        source = "http://localhost:8888/files/wrapper"
+        source = "http://localhost:8888/files/wrapper.zip"
       }
 
       artifact {

@@ -22,10 +22,18 @@ wrapper:
 	pushd wrapper && \
 	go build -o ../dist/wrapper && \
 	popd
+	pushd dist && \
+	zip wrapper.zip wrapper && \
+	rm wrapper && \
+	popd
 
 rating:
 	pushd rating && \
 	go build -o ../dist/rating && \
+	popd
+	pushd dist && \
+	zip rating.zip rating && \
+	rm rating && \
 	popd
 
 frontend:
