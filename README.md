@@ -1,7 +1,11 @@
 ```
 # Run the app...
 # The app now listens on port 8080 on localhost.
-make run
+# In different terminals run:
+make nginx
+make nomad
+make consul
+make deploy
 
 # Get current balance...
 curl http://localhost:8080/accounts/x
